@@ -2,7 +2,7 @@
   "name": "BetPro — Умные ставки",
   "short_name": "BetPro",
   "description": "Ставки на спорт с бонусом 100% на первый депозит",
-  "start_url": "/",
+"start_url": "/betting-landing/",
   "display": "standalone",
   "background_color": "#0a0a0f",
   "theme_color": "#0a0a0f",
