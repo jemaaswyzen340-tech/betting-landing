@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0f" />
+  <meta name="description" content="BetPro — умные ставки, максимальная прибыль. Зарегистрируйся и получи бонус 100% на первый депозит." />
+  <title>BetPro — Победи игру</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #f0b429;
+      --gold-dim: #c48a00;
+      --red: #e63946;
+      --bg: #0a0a0f;
+      --bg2: #12121a;
+      --bg3: #1c1c28;
+      --text: #f0ede6;
+      --muted: #7a7a8c;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 5%;
+      background: linear-gradient(to bottom, rgba(10,10,15,0.95), transparent);
+      backdrop-filter: blur(4px);
+    }
+
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .logo span { color: var(--text); }
+
+    nav a.cta-nav {
+      background: var(--gold);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 10px 22px;
+      border-radius: 3px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    nav a.cta-nav:hover { background: #ffd060; transform: translateY(-1px); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 5% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 40%, rgba(240,180,41,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 80% at 10% 80%, rgba(230,57,70,0.08) 0%, transparent 60%),
+        var(--bg);
+      z-index: 0;
+    }
+
+    .hero-lines {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(240,180,41,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240,180,41,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 0;
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(240,180,41,0.12);
+      border: 1px solid rgba(240,180,41,0.3);
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      border-radius: 30px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: pulse 1.5s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.5); }
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      line-height: 0.9;
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    h1 .accent { color: var(--gold); }
+    h1 .strike {
+      position: relative;
+      color: var(--muted);
+    }
+    h1 .strike::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      top: 50%;
+      height: 3px;
+      background: var(--red);
+      transform: rotate(-2deg);
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 480px;
+      margin-bottom: 40px;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-sub strong { color: var(--text); }
+
+    .hero-cta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #000;
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 16px 36px;
+      border-radius: 4px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+    }
+
+    .btn-primary:hover { background: #ffd060; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(240,180,41,0.35); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 16px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.05); }
+
+    /* ─── STATS ─── */
+    .stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 70px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    .stat { border-left: 2px solid var(--gold); padding-left: 16px; }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+    /* ─── FEATURES ─── */
+    #features {
+      padding: 100px 5%;
+      background: var(--bg2);
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      letter-spacing: 1px;
+      margin-bottom: 60px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2px;
+    }
+
+    .feature-card {
+      background: var(--bg3);
+      padding: 36px 28px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+
+    .feature-card:hover { background: #22223a; }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+
+    .feature-card:hover::before { transform: scaleX(1); }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 18px;
+    }
+
+    .feature-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .feature-text { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+
+    /* ─── BONUS BANNER ─── */
+    #bonus {
+      padding: 80px 5%;
+      background: linear-gradient(135deg, #1a1400 0%, #0a0a0f 50%, #1a0005 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #bonus::before {
+      content: '100%';
+      position: absolute;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 30vw;
+      color: rgba(240,180,41,0.04);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .bonus-tag {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      color: var(--gold);
+      line-height: 1;
+      position: relative;
+    }
+
+    .bonus-desc {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin: 12px 0 32px;
+    }
+
+    /* ─── REGISTER SECTION ─── */
+    #register {
+      padding: 100px 5%;
+      background: var(--bg);
+      display: flex;
+      gap: 60px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .register-left { flex: 1; min-width: 280px; }
+    .register-right { flex: 1; min-width: 300px; }
+
+    .register-left h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .register-left p { color: var(--muted); line-height: 1.7; }
+
+    .form-card {
+      background: var(--bg3);
+      border: 1px solid rgba(240,180,41,0.15);
+      border-radius: 8px;
+      padding: 40px;
+    }
+
+    .form-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+      margin-bottom: 28px;
+      color: var(--gold);
+    }
+
+    .field { margin-bottom: 18px; }
+
+    label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    input, select {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--gold);
+      background: rgba(240,180,41,0.05);
+    }
+
+    input::placeholder { color: var(--muted); }
+
+    select option { background: var(--bg3); }
+
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      accent-color: var(--gold);
+      margin-top: 2px;
+    }
+
+    .checkbox-row label {
+      font-size: 0.8rem;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .checkbox-row label a { color: var(--gold); }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--gold);
+      color: #000;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 15px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-submit:hover { background: #ffd060; transform: translateY(-1px); box-shadow: 0 6px 24px rgba(240,180,41,0.4); }
+
+    .form-note {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 14px;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 40px 5%;
+      background: var(--bg2);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: gap;
+      gap: 20px;
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      color: var(--gold);
+    }
+
+    .footer-text { color: var(--muted); font-size: 0.75rem; line-height: 1.6; max-width: 420px; }
+
+    .age-badge {
+      background: var(--bg3);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 0.9rem;
+      padding: 8px 14px;
+      border-radius: 4px;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      .stats { gap: 24px; }
+      .form-card { padding: 24px 20px; }
+      #register { padding: 60px 5%; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Bet<span>Pro</span></a>
+  <a href="#register" class="cta-nav">Получить бонус</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-content">
+    <div class="badge">🔥 Топ платформа 2025</div>
+    <h1>
+      <span class="strike">Проигрывай</span><br>
+      <span class="accent">Побеждай</span><br>
+      с умом
+    </h1>
+    <p class="hero-sub">
+      Аналитика, live-ставки и <strong>бонус 100%</strong> на первый депозит. 
+      Тысячи событий каждый день — футбол, UFC, NBA и многое другое.
+    </p>
+    <div class="hero-cta">
+      <a href="#register" class="btn-primary">Начать бесплатно</a>
+      <a href="#features" class="btn-ghost">Узнать больше</a>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">50K+</div>
+        <div class="stat-label">Активных игроков</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">98%</div>
+        <div class="stat-label">Выплат вовремя</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">500+</div>
+        <div class="stat-label">Событий в день</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <p class="section-label">Почему BetPro</p>
+  <h2 class="section-title">Преимущества<br>платформы</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">Мгновенные выплаты</div>
+      <p class="feature-text">Вывод средств за 15 минут. Работаем с картами, криптой и электронными кошельками.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <div class="feature-title">Live-аналитика</div>
+      <p class="feature-text">Статистика в реальном времени, тренды и подсказки для каждого матча.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🛡️</div>
+      <div class="feature-title">Безопасность</div>
+      <p class="feature-text">SSL-шифрование, двухфакторная аутентификация и лицензированная платформа.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <div class="feature-title">Высокие коэффициенты</div>
+      <p class="feature-text">Маржа от 3% — одни из лучших котировок на рынке СНГ.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BONUS BANNER -->
+<section id="bonus">
+  <p class="section-label">Приветственный бонус</p>
+  <div class="bonus-tag">+100% к депозиту</div>
+  <p class="bonus-desc">Удвой свой первый депозит — до $500. Активируй прямо сейчас.</p>
+  <a href="#register" class="btn-primary">Получить бонус</a>
+</section>
+
+<!-- REGISTER -->
+<section id="register">
+  <div class="register-left">
+    <p class="section-label">Регистрация</p>
+    <h2>Один шаг<br>до победы</h2>
+    <p>Создай аккаунт за 2 минуты и получи приветственный бонус 100% на первый депозит. Никаких скрытых условий.</p>
+  </div>
+  <div class="register-right">
+    <div class="form-card">
+      <div class="form-title">Создать аккаунт</div>
+      <form id="regForm">
+        <div class="field">
+          <label>Имя</label>
+          <input type="text" name="name" placeholder="Иван" required />
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="ivan@mail.ru" required />
+        </div>
+        <div class="field">
+          <label>Телефон</label>
+          <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" />
+        </div>
+        <div class="field">
+          <label>Валюта</label>
+          <select name="currency">
+            <option>RUB — Российский рубль</option>
+            <option>USD — Доллар США</option>
+            <option>EUR — Евро</option>
+            <option>UAH — Украинская гривна</option>
+            <option>KZT — Казахстанский тенге</option>
+          </select>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="agree" required />
+          <label for="agree">Я согласен с <a href="#">условиями</a> и подтверждаю, что мне исполнилось 18 лет</label>
+        </div>
+        <button type="submit" class="btn-submit">Зарегистрироваться бесплатно</button>
+        <p class="form-note">🔒 Данные защищены SSL-шифрованием</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">BetPro</div>
+  <p class="footer-text">
+    Ставки на спорт сопряжены с риском потери средств. Играйте ответственно. 
+    Сервис предназначен только для лиц старше 18 лет. 
+    При наличии проблем с азартными играми обратитесь за помощью.
+  </p>
+  <div class="age-badge">18+</div>
+</footer>
+
+<script>
+  // Register service worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+  }
+
+  // Form submit
+  document.getElementById('regForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const data = new FormData(this);
+    const name = data.get('name');
+    sessionStorage.setItem('betpro_user', name);
+    window.location.href = 'thankyou.html';
+  });
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.feature-card, .stat, .form-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

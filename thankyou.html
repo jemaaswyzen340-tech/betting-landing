@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0f" />
+  <title>BetPro — Добро пожаловать!</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #f0b429;
+      --bg: #0a0a0f;
+      --bg2: #12121a;
+      --bg3: #1c1c28;
+      --text: #f0ede6;
+      --muted: #7a7a8c;
+      --green: #27ae60;
+    }
+
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 40%, rgba(240,180,41,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(39,174,96,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .confetti-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      top: -10px;
+      animation: confettiFall linear infinite;
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    .card {
+      background: var(--bg3);
+      border: 1px solid rgba(240,180,41,0.2);
+      border-radius: 12px;
+      padding: 60px 50px;
+      max-width: 540px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .check-circle {
+      width: 80px;
+      height: 80px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+      font-size: 2.2rem;
+      animation: popIn 0.5s 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      box-shadow: 0 0 40px rgba(39,174,96,0.4);
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 3px;
+      color: var(--gold);
+      margin-bottom: 24px;
+      display: block;
+      animation: fadeUp 0.5s 0.1s ease both;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      letter-spacing: 1px;
+      line-height: 1;
+      margin-bottom: 14px;
+      animation: fadeUp 0.5s 0.4s ease both;
+    }
+
+    h1 span { color: var(--gold); }
+
+    .sub {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 36px;
+      animation: fadeUp 0.5s 0.5s ease both;
+      font-size: 0.95rem;
+    }
+
+    .bonus-box {
+      background: rgba(240,180,41,0.08);
+      border: 1px solid rgba(240,180,41,0.3);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 32px;
+      animation: fadeUp 0.5s 0.6s ease both;
+    }
+
+    .bonus-box .bonus-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .bonus-amount {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .bonus-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .steps {
+      text-align: left;
+      margin-bottom: 32px;
+      animation: fadeUp 0.5s 0.7s ease both;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .step:last-child { border-bottom: none; }
+
+    .step-num {
+      width: 28px;
+      height: 28px;
+      background: var(--gold);
+      color: #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-text { font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+    .step-text strong { color: var(--text); display: block; margin-bottom: 2px; }
+
+    .btn-deposit {
+      display: block;
+      width: 100%;
+      background: var(--gold);
+      color: #000;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 15px;
+      border-radius: 4px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      animation: fadeUp 0.5s 0.8s ease both;
+    }
+
+    .btn-deposit:hover {
+      background: #ffd060;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(240,180,41,0.4);
+    }
+
+    .timer-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      animation: fadeUp 0.5s 0.9s ease both;
+    }
+
+    .timer { font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 540px) {
+      .card { padding: 40px 24px; }
+      h1 { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="confetti-container" id="confetti"></div>
+
+<div class="card">
+  <span class="logo">BetPro</span>
+  <div class="check-circle">✓</div>
+  <h1>Добро<br>пожаловать, <span id="userName">игрок</span>!</h1>
+  <p class="sub">Аккаунт успешно создан. Теперь сделай первый депозит и получи бонус 100%.</p>
+
+  <div class="bonus-box">
+    <div class="bonus-label">Твой приветственный бонус</div>
+    <div class="bonus-amount">+100%</div>
+    <p class="bonus-note">До $500 — активируется автоматически при первом депозите</p>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>Подтверди email</strong>
+        Письмо уже у тебя в почте — проверь папку «Спам»
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>Сделай первый депозит</strong>
+        Карта, криптовалюта или e-wallet — на выбор
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>Получи бонус и делай ставки</strong>
+        500+ событий ждут тебя прямо сейчас
+      </div>
+    </div>
+  </div>
+
+  <a href="index.html" class="btn-deposit">Пополнить и получить бонус</a>
+
+  <div class="timer-row">
+    ⏱ Бонус активен ещё: <span class="timer" id="timer">23:59:47</span>
+  </div>
+</div>
+
+<script>
+  // Show name
+  const name = sessionStorage.getItem('betpro_user');
+  if (name) document.getElementById('userName').textContent = name;
+
+  // Confetti
+  const container = document.getElementById('confetti');
+  const colors = ['#f0b429','#e63946','#ffffff','#27ae60','#4cc9f0'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `
+      left: ${Math.random()*100}%;
+      background: ${colors[Math.floor(Math.random()*colors.length)]};
+      border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+      width: ${4 + Math.random()*8}px;
+      height: ${4 + Math.random()*8}px;
+      animation-duration: ${2 + Math.random()*4}s;
+      animation-delay: ${Math.random()*3}s;
+    `;
+    container.appendChild(el);
+  }
+
+  // Countdown timer
+  let total = 23 * 3600 + 59 * 60 + 47;
+  setInterval(() => {
+    if (total <= 0) return;
+    total--;
+    const h = String(Math.floor(total/3600)).padStart(2,'0');
+    const m = String(Math.floor((total%3600)/60)).padStart(2,'0');
+    const s = String(total%60).padStart(2,'0');
+    document.getElementById('timer').textContent = `${h}:${m}:${s}`;
+  }, 1000);
+</script>
+</body>
+</html>
